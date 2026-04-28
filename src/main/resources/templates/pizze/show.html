@@ -23,6 +23,38 @@
                             <div class="card-body">
                                 <h1 class="card-title" th:text="${pizza.name}">Nome Pizza</h1>
                                 <p class="card-text mt-3" th:text="${pizza.description}">Descrizione della pizza...</p>
+
+                                <div class="mt-4">
+                                    <h3>Offerte Speciali</h3>
+                                    <a th:href="@{/offers/create(pizzaId=${pizza.id})}" class="btn btn-primary mb-3">
+                                        Crea nuova offerta speciale
+                                    </a>
+
+                                    <table class="table" th:if="${pizza.specialOffers.size() > 0}">
+                                        <thead>
+                                            <tr>
+                                                <th>Titolo</th>
+                                                <th>Inizio</th>
+                                                <th>Fine</th>
+                                                <th>Azioni</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="offer : ${pizza.specialOffers}">
+                                                <td th:text="${offer.title}"></td>
+                                                <td th:text="${offer.startDate}"></td>
+                                                <td th:text="${offer.endDate}"></td>
+                                                <td>
+                                                    <a th:href="@{/offers/edit/{id}(id=${offer.id})}"
+                                                        class="btn btn-sm btn-warning">Modifica</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p th:unless="${pizza.specialOffers.size() > 0}">Nessuna offerta presente per questa
+                                        pizza.</p>
+                                </div>
+
                                 <h4 class="text-success mt-4" th:text="${pizza.price} + ' €'">0.00 €</h4>
 
                                 <div class="mt-5">
