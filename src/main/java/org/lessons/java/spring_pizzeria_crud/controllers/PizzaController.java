@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.lessons.java.spring_pizzeria_crud.models.Pizza;
+import org.lessons.java.spring_pizzeria_crud.repository.IngredientRepository;
 import org.lessons.java.spring_pizzeria_crud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,9 @@ public class PizzaController {
 
     @Autowired
     private PizzaRepository pizzaRepository;
+
+    @Autowired
+    private IngredientRepository ingredientRepository;
 
     // INDEX 1
     @GetMapping
@@ -57,6 +61,7 @@ public class PizzaController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza());
+        model.addAttribute("allIngredients", ingredientRepository.findAll());
         return "pizze/create";
     }
 
@@ -78,6 +83,7 @@ public class PizzaController {
                 .orElseThrow(() -> new IllegalArgumentException("Pizza non trovata"));
 
         model.addAttribute("pizza", pizza);
+        model.addAttribute("allIngredients", ingredientRepository.findAll());
         return "pizze/edit";
     }
 
